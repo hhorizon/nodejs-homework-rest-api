@@ -1,29 +1,25 @@
-const Contact = require("../../models/contact");
+const contactsService = require("../../services/contacts");
+const { HttpCode } = require("../../libs/constants");
 
-const updateStatusContact = async (req, res, next) => {
+const updateStatusContact = async (req, res) => {
   if (req.body.favorite === undefined) {
-    return res
-      .status(400)
-      .json({ status: "error", code: 400, message: "missing field favorite" });
+    return res.status(HttpCode.BAD_REQUEST).json({
+      status: "error",
+      code: HttpCode.BAD_REQUEST,
+      message: "missing field favorite",
+    });
   }
 
   const { contactId } = req.params;
   const { favorite } = req.body;
-  const contact = await Contact.findOneAndUpdate(
-    {
-      _id: contactId,
-    },
-    { favorite },
-    { new: true }
-  );
+  const { user } = req;
+  const contact = await contactsService.updateStatus(contactId, favorite, user);
 
-  if (contact) {
-    return res.json({ status: "success", code: 200, payload: { contact } });
-  }
-
-  return res
-    .status(404)
-    .json({ status: "error", code: 404, message: "Not Found" });
+  return res.json({
+    status: "success",
+    code: HttpCode.OK,
+    payload: { contact },
+  });
 };
 
 module.exports = updateStatusContact;

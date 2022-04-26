@@ -1,20 +1,17 @@
-const Contact = require("../../models/contact");
+const contactsService = require("../../services/contacts");
+const { HttpCode } = require("../../libs/constants");
 
-const removeContact = async (req, res, next) => {
+const removeContact = async (req, res) => {
   const { contactId } = req.params;
-  const contact = await Contact.findOneAndRemove({ _id: contactId });
+  const { user } = req;
+  const contact = await contactsService.remove(contactId, user);
 
-  if (contact) {
-    return res.json({
-      status: "success",
-      code: 200,
-      message: "contact deleted",
-    });
-  }
-
-  return res
-    .status(404)
-    .json({ status: "error", code: 404, message: "Not Found" });
+  return res.json({
+    status: "success",
+    code: HttpCode.OK,
+    message: "contact deleted",
+    payload: { contact },
+  });
 };
 
 module.exports = removeContact;

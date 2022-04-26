@@ -1,26 +1,16 @@
-const Contact = require("../../models/contact");
+const contactsService = require("../../services/contacts");
+const { HttpCode } = require("../../libs/constants");
 
-const updateContact = async (req, res, next) => {
+const updateContact = async (req, res) => {
   const { contactId } = req.params;
-  const { body } = req;
+  const { body, user } = req;
+  const contact = await contactsService.update(contactId, body, user);
 
-  const contact = await Contact.findOneAndUpdate(
-    {
-      _id: contactId,
-    },
-    {
-      ...body,
-    },
-    { new: true }
-  );
-
-  if (contact) {
-    return res.json({ status: "success", code: 200, payload: { contact } });
-  }
-
-  return res
-    .status(404)
-    .json({ status: "error", code: 404, message: "Not Found" });
+  return res.json({
+    status: "success",
+    code: HttpCode.OK,
+    payload: { contact },
+  });
 };
 
 module.exports = updateContact;

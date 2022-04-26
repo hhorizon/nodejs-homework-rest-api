@@ -1,10 +1,13 @@
-const Contact = require("../../models/contact");
+const contactsService = require("../../services/contacts");
+const { HttpCode } = require("../../libs/constants");
 
-const addContact = async (req, res, next) => {
-  const { body } = req;
-  const contact = await Contact.create(body);
+const addContact = async (req, res) => {
+  const { body, user } = req;
+  const contact = await contactsService.create(body, user);
 
-  res.status(201).json({ status: "success", code: 201, payload: { contact } });
+  return res
+    .status(HttpCode.CREATED)
+    .json({ status: "success", code: HttpCode.CREATED, payload: { contact } });
 };
 
 module.exports = addContact;
