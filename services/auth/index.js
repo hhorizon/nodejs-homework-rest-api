@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+
 const Users = require("../../repository/users");
 const { CustomError } = require("../../middlewares/error-handler");
 const { HttpCode } = require("../../libs/constants");
@@ -17,6 +18,7 @@ class AuthService {
     return {
       email: newUser.email,
       subscription: newUser.subscription,
+      avatarURL: newUser.avatarURL,
     };
   }
 
