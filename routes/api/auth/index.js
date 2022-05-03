@@ -2,10 +2,12 @@ const express = require("express");
 
 const authControllers = require("../../../controllers/auth");
 const { userSchema } = require("../../../schemas/user-validation-schemes");
-const { validateBody } = require("../../../middlewares/validation");
-const { wrapper: wrapperError } = require("../../../middlewares/error-handler");
-const limiter = require("../../../middlewares/rate-limit");
-const guard = require("../../../middlewares/guard");
+const {
+  validateBody,
+  wrapper: wrapperError,
+  limiter,
+  guard,
+} = require("../../../middlewares");
 
 const router = express.Router();
 
@@ -20,6 +22,7 @@ router.post(
   validateBody(userSchema),
   wrapperError(authControllers.login)
 );
+
 router.get("/logout", guard, wrapperError(authControllers.logout));
 router.get("/current", guard, wrapperError(authControllers.getCurrent));
 

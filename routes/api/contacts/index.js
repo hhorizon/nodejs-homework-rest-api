@@ -3,9 +3,11 @@ const contactsControllers = require("../../../controllers/contacts");
 const {
   contactSchema,
 } = require("../../../schemas/contact-validation-schemes");
-const { validateBody } = require("../../../middlewares/validation");
-const { wrapper: wrapperError } = require("../../../middlewares/error-handler");
-const guard = require("../../../middlewares/guard");
+const {
+  validateBody,
+  wrapper: wrapperError,
+  guard,
+} = require("../../../middlewares");
 
 const router = express.Router();
 

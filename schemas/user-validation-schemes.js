@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 const userSchema = Joi.object({
+  name: Joi.string().min(3).max(24),
   email: Joi.string()
     .email()
     .required()
@@ -17,4 +18,11 @@ const subscriprionSchema = Joi.object({
   subscription: Joi.string().valid("starter", "pro", "business"),
 });
 
-module.exports = { userSchema, subscriprionSchema };
+const emailSchema = Joi.object({
+  email: Joi.string()
+    .email()
+    .required()
+    .messages({ "any.required": "missing required email field" }),
+});
+
+module.exports = { userSchema, subscriprionSchema, emailSchema };
