@@ -6,7 +6,7 @@ const cors = require("cors");
 const authRouter = require("./routes/api/auth");
 const usersRouter = require("./routes/api/users");
 const contactsRouter = require("./routes/api/contacts");
-const limiter = require("./middlewares/rate-limit");
+const limiter = require("./middlewares");
 
 const app = express();
 
