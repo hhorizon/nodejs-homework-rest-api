@@ -1,15 +1,30 @@
 const express = require("express");
 
 const usersControllers = require("../../../controllers/users");
+const authControllers = require("../../../controllers/auth");
 const {
   subscriprionSchema,
+  emailSchema,
 } = require("../../../schemas/user-validation-schemes");
-const { validateBody } = require("../../../middlewares/validation");
-const { wrapper: wrapperError } = require("../../../middlewares/error-handler");
-const guard = require("../../../middlewares/guard");
-const upload = require("../../../middlewares/upload");
+const {
+  validateBody,
+  wrapper: wrapperError,
+  guard,
+  upload,
+} = require("../../../middlewares");
 
 const router = express.Router();
+
+router.get(
+  "/verify/:verificationToken",
+  wrapperError(authControllers.verifyUser)
+);
+
+router.post(
+  "/verify",
+  validateBody(emailSchema),
+  wrapperError(authControllers.reverifyEmail)
+);
 
 router.patch(
   "/avatars",

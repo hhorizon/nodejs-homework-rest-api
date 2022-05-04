@@ -1,5 +1,5 @@
 const Contacts = require("../../repository/contacts");
-const { CustomError } = require("../../middlewares/error-handler");
+const { CustomError } = require("../../middlewares");
 const { HttpCode } = require("../../libs/constants");
 
 class ContactsService {

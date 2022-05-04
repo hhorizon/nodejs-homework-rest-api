@@ -2,17 +2,22 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 const bcrypt = require("bcrypt");
 const gravatar = require("gravatar");
+const { nanoid } = require("nanoid");
 
 const userSchema = new Schema(
   {
-    password: {
+    name: {
       type: String,
-      required: [true, "Password is required"],
+      default: "Guest",
     },
     email: {
       type: String,
       required: [true, "Email is required"],
       unique: true,
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
     },
     subscription: {
       type: String,
@@ -24,6 +29,15 @@ const userSchema = new Schema(
       default: function () {
         return gravatar.url(this.email, { s: "250" }, true);
       },
+    },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, "Verify token is required"],
+      default: nanoid(),
     },
     token: {
       type: String,
